@@ -1,14 +1,13 @@
 package com.mas.controller;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Optional;
+
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -16,16 +15,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mas.domin.Contact;
-import com.mas.entity.CustomerEntity;
+
 import com.mas.service.CustomerServiceImpl;
 
 @Controller
 public class ContectController {
-	private static Logger logger = LoggerFactory.getLogger(ContectController.class);
+	private static Logger logger = LogManager.getLogger(ContectController.class);
 
 	@Autowired
 	private CustomerServiceImpl customerServiceImpl;
@@ -34,17 +33,20 @@ public class ContectController {
 
 	@RequestMapping("/welcome")
 	public String showForm(Model model) {
+		logger.info("Hello from Log4j 2 - num : {}");
 		Contact contact = new Contact();
 		model.addAttribute("ContactDel", contact);
 		return "welcome";
 
 	}
-
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/submitform")
 	public String SaveCustomer(@ModelAttribute("ContactDel") Contact contact, RedirectAttributes attribute) {
-		logger.info("user info ::" + contact);
+		logger.info("{ }",() -> customerServiceImpl.saveCustomerDetails(contact));
 		String msg = null;
+		
 		Boolean saveCustomerDetails = customerServiceImpl.saveCustomerDetails(contact);
+		
 		if (saveCustomerDetails) {
 			attribute.addFlashAttribute("msg", "Record saved");
 		} else {

@@ -8,4 +8,4 @@ spring:
   mvc:
     view:
       prefix: /WEB-INF/jsp/
-      suffix: .jsp
+      suffix: .jsp  jpa:    open-in-view: true
