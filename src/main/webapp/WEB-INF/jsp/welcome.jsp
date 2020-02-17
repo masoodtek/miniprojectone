@@ -9,6 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<h1>Login Page</h1>
 	<font color="green">${msg}</font>
 	<br/>
 	<form:form action="/submitform?customer_id=${ContactDel.customer_id}" method="post"
